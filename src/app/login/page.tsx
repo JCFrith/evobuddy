@@ -34,6 +34,10 @@ export default function LoginPage() {
         {tab === "login" && <LoginForm onSuccess={() => router.push("/")} />}
         {tab === "register" && <RegisterForm onSuccess={() => router.push("/")} />}
         {tab === "recover" && <RecoverForm onSuccess={() => setTab("login")} />}
+
+        <p className="mt-6 text-center text-[11px] tracking-wide opacity-40">
+          v{process.env.NEXT_PUBLIC_APP_VERSION ?? "dev"}
+        </p>
       </div>
     </main>
   );
