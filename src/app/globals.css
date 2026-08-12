@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-app-bg: #fbf6ea;
+  --color-app-fg: #26221a;
+  --color-brand: #5aa9e6;
+  --color-brand-warm: #f2b84b;
+  --color-card: #ffffff;
+  --color-card-border: #ecdfc4;
+  --font-display: ui-rounded, "Segoe UI Rounded", "SF Pro Rounded", Nunito, system-ui, sans-serif;
+  --font-body: Nunito, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-app-bg: var(--color-app-bg);
+  --color-app-fg: var(--color-app-fg);
+  --color-brand: var(--color-brand);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-app-bg: #171308;
+    --color-app-fg: #f4ede0;
+    --color-card: #241e12;
+    --color-card-border: #3a3120;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Focus visibility for keyboard navigation (accessibility). */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
