@@ -8,7 +8,7 @@ import { getPublicSupabaseKey, getPublicSupabaseUrl } from "@/lib/supabase/env";
  * access to any route; page-level Server Components decide what to do
  * with an authenticated vs. anonymous session.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(getPublicSupabaseUrl(), getPublicSupabaseKey(), {
