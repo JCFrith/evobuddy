@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Lint, typecheck, unit tests, build
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_placeholder1234567890' }}
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+      SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY || 'sb_secret_placeholder' }}
+      AUTH_ALIAS_SECRET: ${{ secrets.AUTH_ALIAS_SECRET || 'ci-placeholder-secret' }}
+      RECOVERY_CODE_SECRET: ${{ secrets.RECOVERY_CODE_SECRET || 'ci-placeholder-secret' }}
+      RATE_LIMIT_SECRET: ${{ secrets.RATE_LIMIT_SECRET || 'ci-placeholder-secret' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test
+
+      - name: Security-sensitive config check
+        run: node scripts/check-secret-hygiene.mjs
+
+      - name: Production build
+        run: npm run build

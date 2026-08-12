@@ -1,7 +1,13 @@
 import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { tickStats, applyCareAction, type AvatarStats, type CareAction } from "@/lib/care";
+import {
+  tickStats,
+  applyCareAction,
+  getCareActionEffect,
+  type AvatarStats,
+  type CareAction,
+} from "@/lib/care";
 import {
   levelFromTotalXp,
   stageForLevel,
@@ -154,7 +160,6 @@ export async function applyCareActionToOwnAvatar(
   const prevLevel = levelFromTotalXp(row.total_xp);
   const prevStage = stageForLevel(species, prevLevel).id;
 
-  const { getCareActionEffect } = await import("@/lib/care");
   const xpAwarded = getCareActionEffect(action).xp;
   const newTotalXp = row.total_xp + xpAwarded;
   const newLevel = levelFromTotalXp(newTotalXp);

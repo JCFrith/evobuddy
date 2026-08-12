@@ -1,0 +1,6 @@
+# Default owner for everything not matched below.
+* @JCFrith
+
+# Database schema and security policy changes should always get a careful look.
+/supabase/ @JCFrith
+/SECURITY.md @JCFrith
