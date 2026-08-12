@@ -16,7 +16,7 @@
 type NoRelationships = { Relationships: [] };
 
 export interface Database {
-  public: {
+  evobuddy: {
     Tables: {
       profiles: {
         Row: {
@@ -35,7 +35,7 @@ export interface Database {
           auth_alias: string;
           parent_email?: string | null;
         };
-        Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["profiles"]["Insert"]>;
       } & NoRelationships;
       avatars: {
         Row: {
@@ -92,7 +92,7 @@ export interface Database {
           sick_since?: string | null;
           last_tick_at?: string;
         };
-        Update: Partial<Database["public"]["Tables"]["avatars"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["avatars"]["Insert"]>;
       } & NoRelationships;
       care_interactions: {
         Row: {
@@ -111,7 +111,7 @@ export interface Database {
           xp_awarded?: number;
           idempotency_key?: string | null;
         };
-        Update: Partial<Database["public"]["Tables"]["care_interactions"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["care_interactions"]["Insert"]>;
       } & NoRelationships;
       xp_history: {
         Row: {
@@ -130,7 +130,7 @@ export interface Database {
           reason: string;
           idempotency_key?: string | null;
         };
-        Update: Partial<Database["public"]["Tables"]["xp_history"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["xp_history"]["Insert"]>;
       } & NoRelationships;
       game_history: {
         Row: {
@@ -151,7 +151,7 @@ export interface Database {
           xp_awarded?: number;
           session_token: string;
         };
-        Update: Partial<Database["public"]["Tables"]["game_history"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["game_history"]["Insert"]>;
       } & NoRelationships;
       evolution_history: {
         Row: {
@@ -172,7 +172,7 @@ export interface Database {
           branch?: string | null;
           level: number;
         };
-        Update: Partial<Database["public"]["Tables"]["evolution_history"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["evolution_history"]["Insert"]>;
       } & NoRelationships;
       login_attempts: {
         Row: {
@@ -187,7 +187,7 @@ export interface Database {
           ip_hash: string;
           success: boolean;
         };
-        Update: Partial<Database["public"]["Tables"]["login_attempts"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["login_attempts"]["Insert"]>;
       } & NoRelationships;
       recovery_attempts: {
         Row: {
@@ -202,7 +202,7 @@ export interface Database {
           ip_hash: string;
           success: boolean;
         };
-        Update: Partial<Database["public"]["Tables"]["recovery_attempts"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["recovery_attempts"]["Insert"]>;
       } & NoRelationships;
       recovery_codes: {
         Row: {
@@ -217,7 +217,7 @@ export interface Database {
           code_hash: string;
           used_at?: string | null;
         };
-        Update: Partial<Database["public"]["Tables"]["recovery_codes"]["Insert"]>;
+        Update: Partial<Database["evobuddy"]["Tables"]["recovery_codes"]["Insert"]>;
       } & NoRelationships;
     };
     Views: Record<string, never>;

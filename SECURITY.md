@@ -57,7 +57,7 @@ This is enforced at the **database column-privilege level**, not just in
 application code:
 
 ```sql
-grant update (name) on public.avatars to authenticated;
+grant update (name) on evobuddy.avatars to authenticated;
 ```
 
 (`supabase/migrations/0002_rls_and_privileges.sql`) — the `authenticated`

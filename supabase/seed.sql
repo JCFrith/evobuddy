@@ -30,11 +30,11 @@ begin
     );
   end if;
 
-  insert into public.profiles (id, nickname, nickname_normalized, auth_alias)
+  insert into evobuddy.profiles (id, nickname, nickname_normalized, auth_alias)
   values (seed_user_id, 'seed-explorer', 'seed-explorer', seed_alias)
   on conflict (id) do nothing;
 
-  insert into public.avatars (
+  insert into evobuddy.avatars (
     user_id, species_slug, name, seed,
     body_color, secondary_color, face_color,
     eye_variant, mouth_variant, ear_variant, pattern_variant, personality,

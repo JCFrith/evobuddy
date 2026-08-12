@@ -28,6 +28,7 @@ export function createSupabaseAdminClient() {
   }
   cached = createClient<Database>(getPublicSupabaseUrl(), secretKey, {
     auth: { autoRefreshToken: false, persistSession: false },
+    db: { schema: "evobuddy" },
   });
   return cached;
 }
