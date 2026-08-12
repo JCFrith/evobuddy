@@ -1,5 +1,12 @@
-const CACHE_NAME = "evobuddy-shell-v1";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/icons/icon-192.png", "/icons/icon-512.png"];
+const CACHE_NAME = "evobuddy-shell-v2";
+// "/" is deliberately excluded: it's a server-side redirect dispatcher
+// (see src/app/page.tsx), never real content. Precaching a followed
+// redirect and serving it back for a later navigation is exactly what
+// triggers Safari's "Response served by service worker has redirections"
+// crash -- browsers reject a Response with redirected=true for
+// navigation requests. /login is real, cacheable content and a
+// reasonable offline landing page instead.
+const APP_SHELL = ["/login", "/manifest.webmanifest", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -26,6 +33,18 @@ self.addEventListener("fetch", (event) => {
   // Never cache API responses (avatar/game state must always be fresh and
   // authoritative from the server) -- network-only for /api/*.
   if (url.pathname.startsWith("/api/")) {
+    return;
+  }
+
+  // Navigations (top-level page loads, including "/" which redirects
+  // server-side) are never intercepted: a redirect followed inside this
+  // fetch handler produces a Response with redirected=true, and handing
+  // that back via respondWith() for a navigation is invalid per spec --
+  // Chrome tolerates it, Safari hard-crashes the load with "Response
+  // served by service worker has redirections". Letting the browser's
+  // own navigation machinery run means redirects (like "/" -> "/login")
+  // are followed correctly regardless of browser.
+  if (request.mode === "navigate") {
     return;
   }
 
