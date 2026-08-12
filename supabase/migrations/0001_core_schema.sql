@@ -13,6 +13,17 @@
 create schema if not exists evobuddy;
 grant usage on schema evobuddy to anon, authenticated, service_role;
 
+-- service_role bypasses RLS policies, but that's a separate mechanism
+-- from ordinary table GRANTs -- it still needs standard privileges on
+-- objects in any schema that isn't `public` (Supabase only auto-grants
+-- service_role full access on `public` at project provisioning time).
+-- This covers every table/sequence/function created in this schema from
+-- here on; the explicit grants at the end of this file cover the ones
+-- created by this migration itself.
+alter default privileges in schema evobuddy grant all on tables to service_role;
+alter default privileges in schema evobuddy grant all on sequences to service_role;
+alter default privileges in schema evobuddy grant all on functions to service_role;
+
 create extension if not exists pgcrypto;
 
 -- ---------------------------------------------------------------------
@@ -210,3 +221,10 @@ drop trigger if exists avatars_set_updated_at on evobuddy.avatars;
 create trigger avatars_set_updated_at
   before update on evobuddy.avatars
   for each row execute function evobuddy.set_updated_at();
+
+-- Explicit grants for the tables/function just created above -- the
+-- ALTER DEFAULT PRIVILEGES near the top of this file only affects
+-- objects created *after* it runs in a future session, not these.
+grant all on all tables in schema evobuddy to service_role;
+grant all on all sequences in schema evobuddy to service_role;
+grant all on all functions in schema evobuddy to service_role;
